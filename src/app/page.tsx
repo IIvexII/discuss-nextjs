@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import SignIn from "@/components/sign-in";
+import AuthButtons from "@/components/auth-buttons";
 
 export default async function Home() {
   const session = await auth();
@@ -7,8 +7,10 @@ export default async function Home() {
   console.log(user);
   return (
     <div>
-      <SignIn />
+      <AuthButtons />
       {user && <p>Welcome, {user.name}!</p>}
+      {/* email */}
+      {user && <p>Email: {user.email}</p>}
     </div>
   );
 }
