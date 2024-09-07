@@ -2,7 +2,7 @@
 
 import { useSession } from "next-auth/react";
 import AuthButtons from "./auth-buttons";
-import AvatarWithDropdown from "./avatar-with-dropdown";
+import AvatarWithDropdown from "@/components/avatar-with-dropdown";
 
 export default function Header() {
   const session = useSession();
