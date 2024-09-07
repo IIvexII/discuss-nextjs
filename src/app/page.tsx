@@ -1,9 +1,14 @@
-import { Button } from "@nextui-org/react";
+import { auth } from "@/auth";
+import SignIn from "@/components/sign-in";
 
-export default function Home() {
+export default async function Home() {
+  const session = await auth();
+  const user = session?.user;
+  console.log(user);
   return (
     <div>
-      <Button>Hello World</Button>
+      <SignIn />
+      {user && <p>Welcome, {user.name}!</p>}
     </div>
   );
 }
