@@ -3,6 +3,7 @@
 import { useSession } from "next-auth/react";
 import AuthButtons from "./auth-buttons";
 import AvatarWithDropdown from "@/components/avatar-with-dropdown";
+import Link from "next/link";
 
 export default function Header() {
   const session = useSession();
@@ -25,9 +26,9 @@ export default function Header() {
   return (
     <div className="navbar bg-base-100 px-12 py-4 flex flex-row items-center justify-between border-b border-gray-200">
       {/* Logo */}
-      <div className="">
-        <a className="btn btn-ghost text-xl">DISCUSS</a>
-      </div>
+      <Link href="/" className="">
+        <p className="btn btn-ghost text-xl">DISCUSS</p>
+      </Link>
       {/* Search bar */}
       <div className="">
         <label className="input input-bordered flex items-center gap-2">

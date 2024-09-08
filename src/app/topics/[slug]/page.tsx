@@ -1,44 +1,37 @@
 import { db } from "@/db";
-import Link from "next/link";
-import { paths } from "@/paths";
+import TopicsBadgeList from "@/components/topics/topicsBadgeList";
+import CreatePostForm from "@/components/form/create-post-form";
+import { notFound } from "next/navigation";
+import { fetchPostsByTopic } from "@/db/queries/fetch-posts";
+import PostList from "@/components/posts/PostList";
 
 interface TopicPageProps {
   params: { slug: string };
 }
 
 export default async function TopicPage({ params }: TopicPageProps) {
-  console.log(params);
   const topic = await db.topic.findUnique({
     where: {
       slug: params.slug,
     },
   });
 
-  const topics = await db.topic.findMany();
+  if (!topic) {
+    notFound();
+  }
 
-  const renderTopics = topics.map((topic) => {
-    return (
-      <Link
-        key={topic.id}
-        href={paths.showTopic(topic.slug)}
-        className="badge badge-warning p-4"
-      >
-        {topic.slug}
-      </Link>
-    );
-  });
   return (
     <div className="grid grid-cols-4 gap-4 mt-4 px-16">
       <div className="col-span-3">
-        <h1 className="text-2xl font-bold">{topic?.slug}</h1>
+        <h1 className="text-2xl font-bold">{params.slug}</h1>
+
+        <PostList posts={await fetchPostsByTopic(params.slug)} />
       </div>
       <div className="col-span-1 flex flex-col border border-gray-300 rounded px-4 py-6">
-        <button type="submit" className="btn btn-neutral w-full">
-          Create Post
-        </button>
+        <CreatePostForm slug={params.slug} />
         <div className="divider"></div>
         <h1 className="text-2xl font-bold mb-4">Topics</h1>
-        <div className="flex flex-row flex-wrap gap-2">{renderTopics}</div>
+        <TopicsBadgeList />
       </div>
     </div>
   );
